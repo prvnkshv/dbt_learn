@@ -16,6 +16,10 @@ sources:
               - not_null                     
       - name: orders
         description: Raw orders data.
+        config:
+          freshness:
+            warn_after: {count: 2, period: day}
+            error_after: {count: 5, period: day}
         columns:
           - name: id
             description: Primary key for orders.
@@ -23,6 +27,3 @@ sources:
               - unique
               - not_null
         loaded_at_field: _etl_loaded_at
-        freshness:
-          warn_after: {count: 2, period: day}
-          error_after: {count: 5, period: day}
