@@ -1,0 +1,30 @@
+version: 2
+
+models:
+  - name: stg_stripe__payments
+    description: "Staging model for Stripe payments"
+    columns:
+      - name: payment_id
+        description: "Stripe payment ID"
+        data_tests:
+          - unique
+          - not_null
+
+      - name: payment_method
+        description: Customer payment methods
+        data_tests:
+          - not_null
+          - accepted_values:
+              values: ['credit_card', 'coupon', 'bank_transfer', 'gift_card']
+
+      - name: status
+        description: "Payment status"
+        data_tests:
+          - not_null
+          - accepted_values:
+              values: ['success', 'fail']
+
+      - name: created_at
+        description: "Created timestamp"
+        data_tests:
+          - not_null
