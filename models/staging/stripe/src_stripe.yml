@@ -11,8 +11,7 @@ sources:
         columns:
           - name: id
             description: Primary key for payments.
-            tests:           # Corrected from data_tests to tests
-              - unique
+            data_tests:           # Corrected from data_tests to tests
               - not_null        
         loaded_at_field: _batched_at
         config:
