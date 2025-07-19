@@ -1,9 +1,10 @@
-{{ union_tables_by_prefix(
+{{ config(
+    materialized='view'
+    
+    ) 
+}}
 
-      database='raw',
-      schema='dbt_learn_jinja', 
-      prefix='orders__'
-        
-      )
-      
-  }}
+select * 
+from (
+    {{ union_tables_by_prefix('raw', 'dbt_jinja', 'orders__') }}
+)
