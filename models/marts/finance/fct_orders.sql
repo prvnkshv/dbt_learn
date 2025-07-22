@@ -1,41 +1,49 @@
-{{
-    config(
-        materialized='incremental'
-    )
-}}
+{{ config(
+    materialized = 'incremental',
+    incremental_strategy = 'merge',
+    unique_key = 'order_id'
+) }}
 
-with orders as  (
-    select * from {{ ref ('stg_jaffle_shop__orders' )}}
+with base_orders as (
+    select * from {{ ref('stg_jaffle_shop__orders') }}
+),
+
+-- Deduplicate orders (in case upstream has duplicates)
+orders as (
+    select *
+    from (
+        select *,
+            row_number() over (partition by order_id order by order_date desc) as row_num
+        from base_orders
+    )
+    where row_num = 1
 ),
 
 payments as (
-    select * from {{ ref ('stg_stripe__payments') }}
+    select * from {{ ref('stg_stripe__payments') }}
 ),
 
 order_payments as (
     select
         order_id,
-        sum (case when status = 'success' then amount end) as amount
-
+        sum(case when status = 'success' then amount else 0 end) as amount
     from payments
-    group by 1
+    group by order_id
 ),
 
- final as (
-
+final as (
     select
         orders.order_id,
         orders.customer_id,
         orders.order_date,
-        coalesce (order_payments.amount, 0) as amount
-
+        coalesce(order_payments.amount, 0) as amount
     from orders
     left join order_payments using (order_id)
 )
 
 select * from final
 {% if is_incremental() %}
-    -- this filter will only be applied on an incremental run
-    where order_date >= (select max(order_date) from {{ this }}) 
+  -- Only include recently changed orders
+  where order_date >= (select max(order_date) from {{ this }})
 {% endif %}
 order by order_date desc
