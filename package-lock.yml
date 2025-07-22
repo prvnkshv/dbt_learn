@@ -5,4 +5,7 @@ packages:
   - name: snowflake_spend
     package: gitlabhq/snowflake_spend
     version: 1.4.0
-sha1_hash: d80b7f772f08bf6a7d14b03678cb053ebc2e11d8
+  - name: dbt_meta_testing
+    package: tnightengale/dbt_meta_testing
+    version: 0.3.6
+sha1_hash: 0753474a1ba3f4323700c1c64e8b7a65876161a2
