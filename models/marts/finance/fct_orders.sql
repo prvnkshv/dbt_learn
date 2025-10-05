@@ -1,3 +1,5 @@
+--comment added
+
 {{ config(
     materialized = 'incremental',
     incremental_strategy = 'merge',
