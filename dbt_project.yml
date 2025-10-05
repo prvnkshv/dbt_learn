@@ -2,7 +2,7 @@
 # and underscores. A good package name should reflect your organization's
 # name or the intended use of these models
 name: 'jaffle_shop'
-version: '1.0.0' 
+version: '1.0.0'
 
 # This setting configures which "profile" dbt uses for this project.
 profile: 'dbt_modelling'
@@ -35,9 +35,11 @@ models:
     marts:
       # marts should have unique and not_null (inherited from above)
       # plus for an addition test for relationships
-      +required_tests: {"relationship.*": 1} 
+      +required_tests: {"relationship.*": 1}
       core:
         +materialized: table
 
     staging:
       +materialized: view
+flags:
+  require_generic_test_arguments_property: true
