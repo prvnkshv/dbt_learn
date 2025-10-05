@@ -15,6 +15,6 @@ sources:
               - not_null
         config:
           freshness:
-            warn_after: {count: 5, period: day}
-            error_after: {count: 7, period: day}
+            warn_after: {count: 15, period: day}
+            error_after: {count: 20, period: day}
           loaded_at_field: _batched_at
