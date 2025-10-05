@@ -6,33 +6,32 @@ models:
     columns:
       - name: order_id
         description: "Primary key for orders"
-        tests:
+        data_tests:
           - not_null
           - unique
-          - relationships:
-              to: ref('stg_jaffle_shop__customers')
-              field: customer_id
 
   - name: fct_orders
     description: "Fact table for orders"
     columns:
       - name: order_id
         description: "Primary key for orders"
-        tests:
+        data_tests:
           - not_null
           - unique
+      - name: customer_id
+        description: "Foreign key to customers"
+        data_tests:
+          - not_null
           - relationships:
-              to: ref('stg_jaffle_shop__customers')
-              field: customer_id
+              arguments:
+                to: ref('stg_jaffle_shop__customers')
+                field: customer_id
 
   - name: dim_customers
     description: "Dimension table for customers"
     columns:
       - name: customer_id
         description: "Primary key for customers"
-        tests:
+        data_tests:
           - not_null
           - unique
-          - relationships:
-              to: ref('stg_jaffle_shop__orders')
-              field: order_id

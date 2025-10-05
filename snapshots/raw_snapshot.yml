@@ -7,9 +7,10 @@ snapshots:
       unique_key: id
       strategy: check
       check_cols: ['id', 'user_id', 'order_date', 'status']
-      hard_delets: ignore
       dbt_valid_to_current: "to_date('9999-12-31')"
 
+      meta:
+        hard_delets: ignore
   - name: payment_snapshot
     relation: source('stripe', 'payment')
     config:

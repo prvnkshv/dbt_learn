@@ -15,14 +15,16 @@ models:
         data_tests:
           - not_null
           - accepted_values:
-              values: ['credit_card', 'coupon', 'bank_transfer', 'gift_card']
+              arguments:
+                values: ['credit_card', 'coupon', 'bank_transfer', 'gift_card']
 
       - name: status
         description: "Payment status"
         data_tests:
           - not_null
           - accepted_values:
-              values: ['success', 'fail']
+              arguments:
+                values: ['success', 'fail']
 
       - name: created_at
         description: "Created timestamp"
